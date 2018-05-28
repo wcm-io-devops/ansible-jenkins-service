@@ -1,0 +1,27 @@
+- name: "stop_jenkins : prepare for shutdown"
+  jenkins_script:
+    script: "{{ lookup('file', 'scripts/groovy/prepare-shutdown.groovy') }}"
+    user: "{{ jenkins_service_admin_username }}"
+    password: "{{ jenkins_service_admin_password }}"
+    url: "{{ jenkins_service_base_url }}"
+
+- name: "stop_jenkins : wait for all builds to be completed."
+  uri:
+    url: "{{ jenkins_service_base_url }}/computer/api/xml?tree=computer[executors[currentExecutable[url]],oneOffExecutors[currentExecutable[url]]]&xpath=//url&wrapper=builds"
+    return_content: yes
+    status_code: 200
+    user: "{{ jenkins_service_admin_username }}"
+    password: "{{ jenkins_service_admin_password }}"
+    force_basic_auth: true
+  register: _jenkins_service_stop_build_status
+  until: _jenkins_service_stop_build_status.content == '<builds/>'
+  retries: "{{ jenkins_service_stop_check_retries }}"
+  delay: "{{ jenkins_service_check_delay }}"
+  failed_when: jenkins_service_stop_check_fail
+
+- name: "stop_jenkins : stop service."
+  service:
+    name: "{{ jenkins_service_name }}"
+    state: stopped
+  register: jenkins_service_stop_result
+

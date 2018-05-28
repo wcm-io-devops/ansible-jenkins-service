@@ -1,0 +1,16 @@
+- name: "start_jenkins : start service."
+  service:
+    name: "{{ jenkins_service_name }}"
+    state: started
+  register: jenkins_service_start_result
+
+- name: "start_jenkins : Wait for Jenkins to start up before proceeding."
+  uri:
+    url: "{{ jenkins_service_base_url }}"
+    return_content: yes
+    status_code: 200,403,503
+  register: result
+  until: (result.status == 200) or (result.status == 403) and (result.content.find("Please wait while") == -1)
+  retries: "{{ jenkins_service_start_check_retries }}"
+  delay: "{{ jenkins_service_check_delay }}"
+  when: jenkins_service_start_result.changed
