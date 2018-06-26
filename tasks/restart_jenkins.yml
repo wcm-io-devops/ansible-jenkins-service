@@ -6,9 +6,9 @@
 
 - block:
   - name: "restart_jenkins : include stop tasks."
-    include: stop_jenkins.yml
+    include_tasks: stop_jenkins.yml
   - name: "restart_jenkins : include start tasks."
-    include: start_jenkins.yml
+    include_tasks: start_jenkins.yml
   - name: "restart_jenkins : touch jenkins restart lockfile age."
     file:
       path: "{{ jenkins_service_restart_lockfile_path }}"
