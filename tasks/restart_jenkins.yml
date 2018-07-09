@@ -1,20 +1,22 @@
-- name: "restart_jenkins : get jenkins restart lockfile age."
-  shell: "[ -f {{ jenkins_service_restart_lockfile_path }} ] && echo $(($(date +%s%N | cut -b1-13) - $(date +%s%N -r {{ jenkins_service_restart_lockfile_path }} | cut -b1-13 )))"
-  register: _jenkins_service_lockfile_age
-  failed_when: false
-  when: jenkins_service_restart_lockfile_enabled == true
+- name: "restart_jenkins : calculate milliseconds since last restart."
+  set_fact:
+    _jenkins_service_seconds_since_last_restart: "{{ lookup('pipe','date +%s') | int - _jenkins_service_last_restart_timestamp | default(0) | int }}"
 
 - block:
   - name: "restart_jenkins : include stop tasks."
     include_tasks: stop_jenkins.yml
   - name: "restart_jenkins : include start tasks."
     include_tasks: start_jenkins.yml
-  - name: "restart_jenkins : touch jenkins restart lockfile age."
-    file:
-      path: "{{ jenkins_service_restart_lockfile_path }}"
-      state: touch
-      mode: 666
-    when: jenkins_service_restart_lockfile_enabled == true
-  when: (jenkins_service_restart_lockfile_enabled == false) or
-        (_jenkins_service_lockfile_age.stdout == "") or
-        (_jenkins_service_lockfile_age.stdout|int > jenkins_service_restart_lockfile_age)
+  - name: "restart_jenkins : set last jenkins restart timestamp"
+    set_fact:
+      _jenkins_service_last_restart_timestamp: "{{ lookup('pipe','date +%s') | int }}"
+  when: (jenkins_service_restart_blocking_enabled == false) or
+        (_jenkins_service_seconds_since_last_restart | int > jenkins_service_restart_blocking_seconds | int)
+
+- name: "restart_jenkins : log restart blocked message."
+  debug:
+    msg:
+      - "jenkins restart blocked because lockfile is not old enough: {{ _jenkins_service_seconds_since_last_restart |int }}s < {{ jenkins_service_restart_blocking_seconds }}s"
+  when:
+    - jenkins_service_restart_blocking_enabled == true
+    - _jenkins_service_seconds_since_last_restart | int < jenkins_service_restart_blocking_seconds | int

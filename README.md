@@ -68,18 +68,14 @@ The number of retries for the jenkins start check.
 
 The delay between the checks if the instance is started up.
 
-    jenkins_service_restart_lockfile_enabled: true
+    jenkins_service_restart_blocking_enabled: true
 
 Controls if the restart lockmechanism is active.
-Since the role may be duplicated through role dependencies this mechanism avoids multiple restart.
+Since the role may be duplicated through role dependencies this mechanism avoids multiple restart
 
-    jenkins_service_restart_lockfile_path: "/tmp/{{jenkins_service_name}}-restart.lock"
+    jenkins_service_restart_blocking_seconds: 2
 
-The path to the lockfile.
-
-    jenkins_service_restart_lockfile_age: 2000
-
-Age of the lockfile that is allowed until a new restart is triggered.
+Timespan in seconds in which the jenkins restart is blocked.
 
 ## Dependencies
 
