@@ -1,11 +1,11 @@
-- name: "stop_jenkins : prepare for shutdown"
+- name: "stop_jenkins : prepare for shutdown."
   jenkins_script:
     script: "{{ lookup('file', 'scripts/groovy/prepare-shutdown.groovy') }}"
     user: "{{ jenkins_service_admin_username }}"
     password: "{{ jenkins_service_admin_password }}"
     url: "{{ jenkins_service_base_url }}"
 
-- name: "stop_jenkins : wait for all builds to be completed."
+- name: "stop_jenkins : wait for all builds to be completed. [{{ inventory_hostname }}]"
   uri:
     url: "{{ jenkins_service_base_url }}/computer/api/xml?tree=computer[executors[currentExecutable[url]],oneOffExecutors[currentExecutable[url]]]&xpath=//url&wrapper=builds"
     return_content: yes

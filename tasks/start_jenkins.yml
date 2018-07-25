@@ -4,7 +4,7 @@
     state: started
   register: jenkins_service_start_result
 
-- name: "start_jenkins : Wait for Jenkins to start up before proceeding."
+- name: "start_jenkins : Wait for Jenkins to start up before proceeding. [{{ inventory_hostname }}]"
   uri:
     url: "{{ jenkins_service_base_url }}"
     return_content: yes
