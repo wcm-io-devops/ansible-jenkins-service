@@ -1,2 +1,2 @@
-- name: wcm-io-devops.jenkins-service restart
+- name: wcm_io_devops.jenkins_service restart
   include_tasks: restart_jenkins.yml

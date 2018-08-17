@@ -1,4 +1,4 @@
-# wcm-io-devops.jenkins-service
+# wcm_io_devops.jenkins_service
 
 This role controls an Jenkins service on Linux servers and waits until
 the startup and shutdown is complete. When shutting down the service the
@@ -91,7 +91,7 @@ Restarts a Jenkins instance
 
 	- hosts: jenkins
 	  roles:
-	    - { role: wcm-io-devops.jenkins-service,
+	    - { role: wcm_io_devops.jenkins_service,
 	        jenkins_service_state: restarted
 	      }
 
