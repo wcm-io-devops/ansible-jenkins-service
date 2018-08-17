@@ -70,7 +70,7 @@ The delay between the checks if the instance is started up.
 
     jenkins_service_restart_blocking_enabled: true
 
-Controls if the restart lockmechanism is active.
+Controls if the restart lock mechanism is active.
 Since the role may be duplicated through role dependencies this mechanism avoids multiple restart
 
     jenkins_service_restart_blocking_seconds: 2
