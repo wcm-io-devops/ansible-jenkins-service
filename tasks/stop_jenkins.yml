@@ -24,4 +24,3 @@
     name: "{{ jenkins_service_name }}"
     state: stopped
   register: jenkins_service_stop_result
-
