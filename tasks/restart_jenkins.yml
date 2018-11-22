@@ -10,7 +10,7 @@
   - name: "restart_jenkins : set last jenkins restart timestamp"
     set_fact:
       _jenkins_service_last_restart_timestamp: "{{ lookup('pipe','date +%s') | int }}"
-  when: (jenkins_service_restart_blocking_enabled == false) or
+  when: (not jenkins_service_restart_blocking_enabled) or
         (_jenkins_service_seconds_since_last_restart | int > jenkins_service_restart_blocking_seconds | int)
 
 - name: "restart_jenkins : log restart blocked message."
@@ -18,5 +18,5 @@
     msg:
       - "jenkins restart blocked because lockfile is not old enough: {{ _jenkins_service_seconds_since_last_restart |int }}s < {{ jenkins_service_restart_blocking_seconds }}s"
   when:
-    - jenkins_service_restart_blocking_enabled == true
+    - jenkins_service_restart_blocking_enabled
     - _jenkins_service_seconds_since_last_restart | int < jenkins_service_restart_blocking_seconds | int
