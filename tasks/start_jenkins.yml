@@ -3,6 +3,8 @@
     name: "{{ jenkins_service_name }}"
     state: started
   register: jenkins_service_start_result
+  tags:
+    - skip_ansible_lint
 
 - name: "start_jenkins : Wait for Jenkins to start up before proceeding. [{{ inventory_hostname }}]"
   uri:
@@ -14,3 +16,5 @@
   retries: "{{ jenkins_service_start_check_retries }}"
   delay: "{{ jenkins_service_check_delay }}"
   when: jenkins_service_start_result.changed
+  tags:
+    - skip_ansible_lint
