@@ -7,7 +7,7 @@
 
 - name: "stop_jenkins : wait for all builds to be completed. [{{ inventory_hostname }}]"
   uri:
-    url: "{{ jenkins_service_base_url }}/computer/api/xml?tree=computer[executors[currentExecutable[url]],oneOffExecutors[currentExecutable[url]]]&xpath=//url&wrapper=builds"
+    url: "{{ jenkins_service_job_status_url }}"
     return_content: yes
     status_code: 200
     user: "{{ jenkins_service_admin_username }}"

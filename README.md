@@ -77,6 +77,10 @@ Since the role may be duplicated through role dependencies this mechanism avoids
 
 Timespan in seconds in which the jenkins restart is blocked.
 
+    jenkins_service_job_status_url: "{{ jenkins_service_base_url }}/computer/api/xml?tree=computer[executors[currentExecutable[url]],oneOffExecutors[currentExecutable[url]]]&xpath=//url&wrapper=builds"
+
+Jenkins API URL for retrieving currently building jobs. Used to cleanly stop the Jenkins instance.
+
 ## Dependencies
 
 This role has no hard dependencies but interacts heavily with the

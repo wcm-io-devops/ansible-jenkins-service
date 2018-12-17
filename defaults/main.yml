@@ -42,3 +42,6 @@ jenkins_service_restart_blocking_enabled: true
 
 #Timespan in seconds in which the jenkins restart is blocked
 jenkins_service_restart_blocking_seconds: 2
+
+# Jenkins API URL for retrieving currently building jobs. Used to cleanly stop the Jenkins instance.
+jenkins_service_job_status_url: "{{ jenkins_service_base_url }}/computer/api/xml?tree=computer[executors[currentExecutable[url]],oneOffExecutors[currentExecutable[url]]]&xpath=//url&wrapper=builds"
