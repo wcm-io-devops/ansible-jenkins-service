@@ -60,11 +60,13 @@ Since pipeline jobs currently hangs when jenkins is in shutdown mode we
 will not fail and restart, see
 https://issues.jenkins-ci.org/browse/JENKINS-34256.
 
-    jenkins_service_start_check_retries: 120
+    jenkins_service_start_check_retries: 24
 
-The number of retries for the jenkins start check.
+The number of retries for the jenkins start check. Multiply with
+jenkins_service_check_delay to get complete duration (default: 2
+minutes)
 
-    jenkins_service_check_delay: 1
+    jenkins_service_check_delay: 5
 
 The delay between the checks if the instance is started up.
 

@@ -31,10 +31,11 @@ jenkins_service_stop_check_retries: 300
 jenkins_service_stop_check_fail: false
 
 # The number of retries for the jenkins start check
-jenkins_service_start_check_retries: 120
+# (multiply with jenkins_service_check_delay to get complete duration), default: 2 minutes
+jenkins_service_start_check_retries: 24
 
 # The delay between the checks if the instance is started up
-jenkins_service_check_delay: 1
+jenkins_service_check_delay: 5
 
 # Controls if the restart lockmechanism is active.
 # Since the role may be duplicated through role dependencies this mechanism avoids multiple restart
