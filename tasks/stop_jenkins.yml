@@ -17,7 +17,7 @@
   until: _jenkins_service_stop_build_status.content == '<builds/>'
   retries: "{{ jenkins_service_stop_check_retries }}"
   delay: "{{ jenkins_service_check_delay }}"
-  failed_when: jenkins_service_stop_check_fail
+  failed_when: jenkins_service_stop_check_fail | bool
 
 - name: "stop_jenkins : stop service."
   service:
