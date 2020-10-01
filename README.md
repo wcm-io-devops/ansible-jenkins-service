@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wcm-io-devops/ansible-jenkins-service.svg?branch=master)](https://travis-ci.org/wcm-io-devops/ansible-jenkins-service)
+
 # wcm_io_devops.jenkins_service
 
 This role controls an Jenkins service on Linux servers and waits until
