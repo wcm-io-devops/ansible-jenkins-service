@@ -11,7 +11,7 @@ other roles/playbooks.
 
 ## Requirements
 
-This role requires Ansible 2.4 or higher. The role requires an Jenkins
+This role requires Ansible 2.7 or higher. The role requires an Jenkins
 service that can be controlled with the Ansible `service` module to be
 installed on the target machine.
 
