@@ -1,3 +1,4 @@
+---
 galaxy_info:
   role_name: jenkins_service
   author: Tobias Richter
@@ -8,13 +9,11 @@ galaxy_info:
   min_ansible_version: 2.7
 
   platforms:
-  - name: Debian
-    versions:
-    - stretch
-    - buster
+    - name: Debian
+      versions:
+        - stretch
+        - buster
 
   galaxy_tags:
     - wcmio
     - jenkins
-
-dependencies: []

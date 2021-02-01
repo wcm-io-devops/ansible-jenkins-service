@@ -1,3 +1,4 @@
+---
 - name: "stop_jenkins : prepare for shutdown."
   jenkins_script:
     script: "{{ lookup('file', 'scripts/groovy/prepare-shutdown.groovy') }}"
