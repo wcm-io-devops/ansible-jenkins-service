@@ -1,16 +1,17 @@
+---
 - name: "restart_jenkins : calculate milliseconds since last restart."
   set_fact:
     _jenkins_service_seconds_since_last_restart:
       "{{ lookup('pipe','date +%s') | int - _jenkins_service_last_restart_timestamp | default(0) | int }}"
 
 - block:
-  - name: "restart_jenkins : include stop tasks."
-    include_tasks: stop_jenkins.yml
-  - name: "restart_jenkins : include start tasks."
-    include_tasks: start_jenkins.yml
-  - name: "restart_jenkins : set last jenkins restart timestamp"
-    set_fact:
-      _jenkins_service_last_restart_timestamp: "{{ lookup('pipe','date +%s') | int }}"
+    - name: "restart_jenkins : include stop tasks."
+      include_tasks: stop_jenkins.yml
+    - name: "restart_jenkins : include start tasks."
+      include_tasks: start_jenkins.yml
+    - name: "restart_jenkins : set last jenkins restart timestamp"
+      set_fact:
+        _jenkins_service_last_restart_timestamp: "{{ lookup('pipe','date +%s') | int }}"
   when: (not jenkins_service_restart_blocking_enabled | bool) or
         (_jenkins_service_seconds_since_last_restart | int > jenkins_service_restart_blocking_seconds | int)
 
